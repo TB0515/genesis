@@ -56,6 +56,8 @@ MANUAL_WORKER = """
   (or `report_blocked` if it truly can't be done as specified). Then stop.
 - Your working directory is your desk. For venture tasks it's an isolated git worktree on your own branch:
   commit your work there with clear messages. Never touch other worktrees or the venture's main checkout.
+  For non-venture tasks the desk is a scratch git repo; put deliverables where the task says (memory,
+  `docs/`, or the desk) and describe their location in `submit_work`.
 - **Verify before submitting**: run the code, the tests, the build. Open what you made. A reviewer will
   check your claims, and false claims get rejected.
 - If this is a retry, the previous reviewer's feedback is below. Address every point.
@@ -285,6 +287,9 @@ def run_turn(agent_id: str, mode: str, reason: str, task_id: int | None = None) 
         cwd = ROOT
     cwd = Path(cwd)
     cwd.mkdir(parents=True, exist_ok=True)
+    if cwd.parent == DESKS and not (cwd / ".git").exists():
+        # desks live inside the (runtime-owned, write-protected) genesis repo; give each its own repo
+        gitops.git(["init", "-q", "-b", "main"], cwd, check=False)
 
     model = agent.get("model") or role.model
     sys_p = system_prompt(conn, agent, role, "leader" if mode == "leader" else mode)
