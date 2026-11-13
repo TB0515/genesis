@@ -423,6 +423,24 @@ def create_venture(name: str, pitch: str, public: bool = True) -> str:
 
 
 @server.tool()
+def enable_pages(venture: str) -> str:
+    """Turn on GitHub Pages for one of OUR venture repos, deploying from GitHub Actions (the repo needs a
+    Pages workflow, e.g. actions/deploy-pages). CEO, CTO or comms. Returns the public URL."""
+    if me().get("role") not in {"ceo", "cto", "comms"}:
+        return "CEO, CTO or comms only."
+    v = conn.execute("SELECT repo_url FROM ventures WHERE name=?", (venture,)).fetchone()
+    if not v or not v["repo_url"]:
+        return "Not one of our published ventures."
+    repo = f"{GH_OWNER}/{venture}"
+    p = gitops.gh(["api", "-X", "POST", f"repos/{repo}/pages", "-f", "build_type=workflow", "--jq", ".html_url"])
+    if p.returncode != 0 and "already" not in (p.stderr + p.stdout).lower():
+        return f"Failed: {p.stderr.strip()[:300]}"
+    url = p.stdout.strip() or f"https://{GH_OWNER.lower()}.github.io/{venture}/"
+    db.event(conn, AGENT_ID, "pages_enabled", f"{venture} → {url}")
+    return f"Pages enabled for {repo}: {url} (deploys on the next push to main / workflow run)."
+
+
+@server.tool()
 def shelve_venture(name: str, reason: str) -> str:
     """Shelve a venture (CEO only). Its repo stays public and intact; it just stops getting work."""
     if me().get("role") != "ceo":
