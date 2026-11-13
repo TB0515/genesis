@@ -102,7 +102,8 @@ def sandbox_settings() -> dict:
             "denyWrite": [str(ROOT / "runtime"), str(ROOT / "CONSTITUTION.md"), str(ROOT / ".git"),
                           str(ROOT / ".venv"), str(ROOT / "var" / "genesis.db")],
             "denyRead": [home],
-            "allowRead": [str(ROOT), f"{home}/.local/bin", f"{home}/.local/share/uv"],
+            # shell-snapshots: Claude Code sources a snapshot of the shell config before each command
+            "allowRead": [str(ROOT), f"{home}/.local/bin", f"{home}/.local/share/uv", f"{home}/.claude/shell-snapshots"],
         },
         "network": {"allowedDomains": BASH_DOMAINS, "allowLocalBinding": True},
     }
@@ -120,7 +121,7 @@ def sandbox_env() -> dict:
     return {"XDG_CACHE_HOME": str(h / "cache"), "XDG_CONFIG_HOME": str(h / "config"), "TMPDIR": str(h / "tmp"),
             "npm_config_cache": str(h / "npm-cache"), "npm_config_userconfig": str(h / ".npmrc"),
             "UV_CACHE_DIR": str(h / "cache" / "uv"), "PIP_CACHE_DIR": str(h / "cache" / "pip"),
-            "GIT_CONFIG_GLOBAL": str(gitcfg), "GIT_CONFIG_NOSYSTEM": "1"}
+            "GIT_CONFIG_GLOBAL": str(gitcfg), "GIT_CONFIG_NOSYSTEM": "1", "CLAUDE_CODE_SHELL": "/bin/bash"}
 
 
 def _read(p: Path, limit=6000) -> str:
