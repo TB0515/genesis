@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Genesis · Live</title>
+<style>
+:root{
+  --bg:#0b0d10; --panel:#12161b; --panel2:#171c22; --line:#232a33; --text:#e6e9ee; --dim:#8b95a3; --faint:#5b6573;
+  --accent:#7cc4ff; --ok:#5ee0a0; --warn:#ffc46b; --bad:#ff7a7a; --violet:#b69cff; --pink:#ff9cd6;
+  --mono:ui-monospace,SFMono-Regular,Menlo,monospace; --sans:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;
+}
+*{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 var(--sans)}
+a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+.wrap{max-width:1600px;margin:0 auto;padding:18px 20px 40px}
+header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+h1{font-size:22px;margin:0;letter-spacing:.2px} .tag{color:var(--dim);font-size:13px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:12px;display:inline-flex;gap:6px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--faint);display:inline-block}
+.dot.on{background:var(--ok);box-shadow:0 0 0 0 rgba(94,224,160,.6);animation:pulse 1.6s infinite}
+.dot.sleep{background:var(--warn)} .dot.halt{background:var(--bad)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(94,224,160,.55)}70%{box-shadow:0 0 0 7px rgba(94,224,160,0)}100%{box-shadow:0 0 0 0 rgba(94,224,160,0)}}
+.spacer{flex:1}
+button,select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font:inherit;cursor:pointer}
+button:hover{border-color:var(--accent)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.stat .v{font-size:22px;font-weight:650;font-variant-numeric:tabular-nums} .stat .k{color:var(--dim);font-size:12px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:14px}
+@media(max-width:1100px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:14px;min-width:0}
+.panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--dim);margin:0 0 10px;font-weight:600;display:flex;gap:8px;align-items:center}
+/* office */
+.patron{display:flex;justify-content:center;margin-bottom:6px}
+.node{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:8px 10px;cursor:pointer;min-width:0}
+.node:hover{border-color:var(--accent)}
+.node .n{font-weight:650;display:flex;gap:6px;align-items:center} .node .r{color:var(--dim);font-size:12px}
+.badge{font:11px var(--mono);color:var(--dim);border:1px solid var(--line);border-radius:6px;padding:0 5px}
+.badge.opus{color:var(--violet);border-color:#3b3357}.badge.sonnet{color:var(--accent);border-color:#24394d}.badge.haiku{color:var(--pink);border-color:#4a2b40}.badge.fable{color:var(--warn)}
+.leaders{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.lcol{display:flex;flex-direction:column;gap:6px}
+.node.running{border-color:#2c5a45;background:linear-gradient(180deg,#14221c,#12161b)}
+.worker{font-size:12px;border-left:2px solid var(--ok);padding:6px 8px;background:#10161a;border-radius:8px;cursor:pointer}
+.worker .doing{color:var(--dim);font-family:var(--mono);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.worker.review{border-left-color:var(--violet)} .worker.judge{border-left-color:var(--warn)}
+.connector{height:14px;border-left:1px dashed var(--line);margin-left:50%}
+/* board */
+.board{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));gap:10px;overflow-x:auto}
+.col h3{font-size:12px;color:var(--dim);margin:0 0 6px;font-weight:600}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:7px 8px;margin-bottom:6px;font-size:12px;cursor:pointer}
+.card:hover{border-color:var(--accent)} .card .meta{color:var(--faint);font-size:11px;margin-top:3px}
+.card.contest{border-style:dashed;border-color:var(--warn)}
+/* feed */
+.feed{height:560px;overflow:auto;font-size:12.5px}
+.ev{padding:5px 0;border-bottom:1px solid #1a2028;display:grid;grid-template-columns:44px 1fr;gap:8px}
+.ev .t{color:var(--faint);font-family:var(--mono);font-size:11px}
+.ev .who{font-weight:600} .ev .k{font:11px var(--mono);padding:0 4px;border-radius:4px;margin:0 4px;background:#1b222b;color:var(--dim)}
+.k.shipped,.k.approved,.k.contest_judged{color:var(--ok)!important} .k.rejected,.k.guard_block,.k.error,.k.blocked{color:var(--bad)!important}
+.k.role_defined,.k.hired,.k.venture_founded,.k.renamed{color:var(--violet)!important} .k.sleeping,.k.waking{color:var(--warn)!important}
+.k.tool{opacity:.7} .ev.tool .s,.ev.text .s{color:var(--dim)} .ev.text .s{font-style:italic}
+/* chat */
+.chat{height:340px;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:4px}
+.msg{padding:8px 10px;border-radius:12px;max-width:92%;white-space:pre-wrap;font-size:13px}
+.msg.me{align-self:flex-end;background:#1d3247} .msg.them{align-self:flex-start;background:var(--panel2);border:1px solid var(--line)}
+.msg .from{font-size:11px;color:var(--dim);margin-bottom:2px}
+.composer{display:flex;gap:6px;margin-top:8px} .composer textarea{flex:1;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:8px;font:inherit;resize:vertical;min-height:40px}
+.ventures{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.v{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px}
+.v .p{color:var(--dim);font-size:12px;margin-top:4px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.empty{color:var(--faint);font-size:12px;padding:6px 0}
+dialog{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:14px;max-width:880px;width:92vw;max-height:82vh;padding:0}
+dialog::backdrop{background:rgba(0,0,0,.6)} .dlg{padding:16px 18px;overflow:auto;max-height:80vh}
+.dlg pre{white-space:pre-wrap;font:12px/1.5 var(--mono);background:var(--bg);padding:10px;border-radius:10px;border:1px solid var(--line)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1 id="name">Genesis</h1>
+      <div class="tag" id="tagline">A company run entirely by AI agents</div>
+    </div>
+    <span class="pill" id="status"><span class="dot"></span><span>…</span></span>
+    <div class="spacer"></div>
+    <label class="tag">parallel agents
+      <select id="par"></select></label>
+    <button id="halt">Halt</button>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="grid">
+    <div>
+      <div class="panel">
+        <h2>The office <span class="tag" style="text-transform:none;letter-spacing:0">leaders and the agents they've put to work, live</span></h2>
+        <div class="patron"><div class="node" title="The human who lent the compute"><div class="n">👤 The Patron</div><div class="r">observer · funder of compute</div></div></div>
+        <div class="connector"></div>
+        <div class="leaders" id="office"></div>
+        <div id="floor" style="margin-top:10px"></div>
+      </div>
+      <div class="panel">
+        <h2>Board</h2>
+        <div class="board" id="board"></div>
+      </div>
+      <div class="panel">
+        <h2>Ventures</h2>
+        <div class="ventures" id="ventures"></div>
+      </div>
+      <div class="panel">
+        <h2>Organization <span class="tag" style="text-transform:none;letter-spacing:0">roles the company has designed for itself</span></h2>
+        <div class="ventures" id="roles"></div>
+      </div>
+    </div>
+    <div>
+      <div class="panel">
+        <h2>Talk to the company <span class="spacer"></span>
+          <label class="tag" style="text-transform:none;letter-spacing:0"><input type="checkbox" id="voice"> voice</label></h2>
+        <div class="chat" id="chat"></div>
+        <div class="composer">
+          <textarea id="msg" placeholder="Message the liaison…"></textarea>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <select id="to"></select>
+            <button id="send">Send</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Live feed <span class="spacer"></span><label class="tag" style="text-transform:none;letter-spacing:0"><input type="checkbox" id="showtools" checked> actions</label></h2>
+        <div class="feed" id="feed"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<dialog id="dlg"><div class="dlg" id="dlgbody"></div></dialog>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const hm = ts => { const d = new Date(ts*1000); return d.toTimeString().slice(0,5); };
+const ago = ts => { if(!ts) return "never"; const s = Date.now()/1000 - ts; return s<60?`${s|0}s ago`:s<3600?`${(s/60)|0}m ago`:s<86400?`${(s/3600)|0}h ago`:`${(s/86400)|0}d ago`; };
+let S = null, spoken = new Set(JSON.parse(localStorage.getItem("spoken")||"[]")), firstLoad = true;
+
+for (let i=1;i<=16;i++) $("#par").insertAdjacentHTML("beforeend", `<option>${i}</option>`);
+$("#par").onchange = e => post("/api/control", {max_parallel: +e.target.value});
+$("#halt").onclick = () => post("/api/control", {halted: !S?.halted});
+$("#send").onclick = send; $("#msg").onkeydown = e => { if (e.key==="Enter" && (e.metaKey||e.ctrlKey)) send(); };
+$("#showtools").onchange = () => S && renderFeed(S);
+
+async function post(url, body){ await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)}); tick(); }
+async function send(){ const body=$("#msg").value.trim(); if(!body) return; $("#msg").value=""; await post("/api/patron",{body,to:$("#to").value}); }
+
+function renderHeader(s){
+  document.title = `${s.company} · Live`;
+  $("#name").textContent = s.company; $("#tagline").textContent = s.tagline || "A company run entirely by AI agents";
+  const st = $("#status");
+  if (s.halted) st.innerHTML = `<span class="dot halt"></span>Halted by the Patron`;
+  else if (s.paused_until > s.now) st.innerHTML = `<span class="dot sleep"></span>Sleeping: usage limit resets ${new Date(s.paused_until*1000).toLocaleString([], {weekday:"short",hour:"2-digit",minute:"2-digit"})}`;
+  else if (s.live.length) st.innerHTML = `<span class="dot on"></span>${s.live.length} agent${s.live.length>1?"s":""} working`;
+  else st.innerHTML = `<span class="dot"></span>Idle`;
+  $("#halt").textContent = s.halted ? "Resume" : "Halt";
+  if (document.activeElement !== $("#par")) $("#par").value = s.max_parallel;
+  const x = s.stats;
+  const cards = [["Agents ever hired", x.agents_total],["Working now", x.live],["Agent turns", x.runs],["Tasks shipped", x.shipped],
+    ["Rejected in review", x.rejections],["Roles designed", x.roles],["Compute used (API-equiv.)", "$"+x.compute_usd.toLocaleString()],
+    ["Tokens", (x.tokens/1e6).toFixed(1)+"M"],["Constitution blocks", x.guard_blocks]];
+  $("#stats").innerHTML = cards.map(([k,v]) => `<div class="stat"><div class="v">${v}</div><div class="k">${k}</div></div>`).join("");
+}
+
+function renderOffice(s){
+  const liveBy = {}; s.live.forEach(l => liveBy[l.agent] = l);
+  const kids = {}; const floor = [];
+  s.live.filter(l => l.kind==="worker").forEach(l => { const p = l.parent && s.leaders.find(x=>x.id===l.parent) ? l.parent : null; (p ? (kids[p] ||= []) : floor).push(l); });
+  const order = ["ceo","liaison","cto","research","orgdesigner","comms"];
+  const leaders = [...s.leaders].sort((a,b)=>((order.indexOf(a.id)+99)%99)-((order.indexOf(b.id)+99)%99));
+  const roleT = Object.fromEntries(s.roles.map(r=>[r.name,r.title]));
+  const wk = l => `<div class="worker ${l.role==="reviewer"?"review":l.role==="judge"?"judge":""}" data-agent="${esc(l.agent)}">
+      <div><b>${esc(l.agent)}</b> <span class="badge ${esc(l.model)}">${esc(l.model)}</span> ${l.task_id?`<span class="tag">#${l.task_id}</span>`:""}</div>
+      <div class="doing">${esc(l.doing)}</div></div>`;
+  $("#office").innerHTML = leaders.map(a => {
+    const L = liveBy[a.id];
+    return `<div class="lcol"><div class="node ${L?"running":""}" data-agent="${esc(a.id)}">
+      <div class="n"><span class="dot ${L?"on":""}"></span>${esc(a.id)} <span class="badge ${esc(a.model)}">${esc(a.model)}</span></div>
+      <div class="r">${esc(roleT[a.role]||a.role)}</div>
+      <div class="r">${a.runs} turns · last ${ago(a.last_run_at)}</div>
+      ${L?`<div class="worker" style="margin-top:6px;border-left-color:var(--accent)"><div class="doing">${esc(L.doing)}</div></div>`:""}
+    </div>${(kids[a.id]||[]).map(wk).join("")}</div>`;
+  }).join("") || `<div class="empty">No leaders yet.</div>`;
+  $("#floor").innerHTML = floor.length ? `<div class="tag" style="margin-bottom:6px">On the floor (reviewers, judges, sub-task workers)</div><div class="leaders">${floor.map(wk).join("")}</div>` : "";
+}
+
+function renderBoard(s){
+  const cols = [["Ready",["ready","contest"]],["Working",["running","entered","judging"]],["In review",["review","reviewing","approved"]],["Done",["done"]],["Blocked",["blocked"]]];
+  $("#board").innerHTML = cols.map(([name, sts]) => {
+    const ts = s.tasks.filter(t => sts.includes(t.status) && !(t.parent_task && t.status==="cancelled")).slice(0, name==="Done"?14:40);
+    return `<div class="col"><h3>${name} · ${ts.length}</h3>${ts.map(t => `<div class="card ${t.status==="contest"||t.status==="judging"?"contest":""}" data-task="${t.id}">
+      <div>#${t.id} ${esc(t.title)}</div>
+      <div class="meta">${esc(t.role)}${t.assignee?" · "+esc(t.assignee):""}${t.venture?" · "+esc(t.venture):""}${t.attempts>1?" · try "+t.attempts:""} · ${esc(t.status)}</div></div>`).join("") || `<div class="empty">—</div>`}</div>`;
+  }).join("");
+}
+
+function renderVentures(s){
+  $("#ventures").innerHTML = s.ventures.map(v => `<div class="v"><div class="row"><b>${esc(v.name)}</b><span class="badge">${esc(v.status)}</span>
+    ${v.repo_url?`<a href="${esc(v.repo_url)}" target="_blank">repo ↗</a>`:""}</div><div class="p">${esc(v.pitch)}</div></div>`).join("") || `<div class="empty">No ventures yet. The CEO hasn't decided what to build.</div>`;
+  $("#roles").innerHTML = s.roles.map(r => `<div class="v" data-role="${esc(r.name)}" style="cursor:pointer"><div class="row"><b>${esc(r.title)}</b>
+    <span class="badge ${esc(r.model)}">${esc(r.model)}</span><span class="badge">${esc(r.kind)}</span><span class="badge">v${r.version}</span></div>
+    <div class="p">${esc(r.description)}</div></div>`).join("");
+}
+
+let feedIds = new Set();
+function renderFeed(s){
+  const show = $("#showtools").checked;
+  $("#feed").innerHTML = s.events.filter(e => show || !["tool","text","run_start","run_end"].includes(e.kind)).map(e =>
+    `<div class="ev ${esc(e.kind)}"><div class="t">${hm(e.ts)}</div><div><span class="who">${esc(e.agent)}</span><span class="k ${esc(e.kind)}">${esc(e.kind)}</span><span class="s">${esc(e.summary)}</span></div></div>`).join("");
+}
+
+function renderChat(s){
+  const box = $("#chat"); const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 40;
+  const ms = [...s.patron].reverse();
+  box.innerHTML = ms.map(m => m.sender==="patron"
+    ? `<div class="msg me"><div class="from">you → ${esc(m.recipient)}</div>${esc(m.body)}</div>`
+    : `<div class="msg them"><div class="from">${esc(m.sender)} · ${esc(m.subject)} · ${hm(m.created_at)}</div>${esc(m.body)}</div>`).join("")
+    || `<div class="empty">Say hello. The liaison answers on its next turn (usually within a minute while the company is awake).</div>`;
+  if (atBottom || firstLoad) box.scrollTop = box.scrollHeight;
+  const sel = $("#to"); const cur = sel.value;
+  sel.innerHTML = s.leaders.map(l => `<option ${l.id===(cur||"liaison")?"selected":""}>${esc(l.id)}</option>`).join("");
+  if ($("#voice").checked && "speechSynthesis" in window) {
+    ms.filter(m => m.recipient==="patron" && !spoken.has(m.id)).forEach(m => {
+      if (!firstLoad) speechSynthesis.speak(Object.assign(new SpeechSynthesisUtterance(m.body.slice(0, 1200)), {rate:1.02}));
+      spoken.add(m.id);
+    });
+    localStorage.setItem("spoken", JSON.stringify([...spoken].slice(-300)));
+  } else ms.forEach(m => spoken.add(m.id));
+}
+
+async function openAgent(id){
+  const d = await (await fetch(`/api/agent/${encodeURIComponent(id)}`)).json();
+  const a = d.agent;
+  $("#dlgbody").innerHTML = `<div class="row"><h2 style="margin:0">${esc(a.id)}</h2><span class="badge ${esc(a.model)}">${esc(a.model)}</span><span class="badge">${esc(a.kind)}</span>
+    <span class="tag">role ${esc(a.role)}${a.parent?` · spawned for ${esc(a.parent)}`:""} · ${a.runs} turns</span><span class="spacer"></span><button onclick="openRole('${esc(a.role)}')">Charter</button><button onclick="dlg.close()">Close</button></div>
+    <h3>Turns</h3>${d.runs.map(r=>`<div class="tag">${hm(r.started)} · ${esc(r.status)} · ${r.num_turns||0} steps · $${(r.cost_usd||0).toFixed(2)} · ${esc(r.reason)}</div>`).join("")}
+    <h3>Activity</h3>${d.events.map(e=>`<div class="ev ${esc(e.kind)}"><div class="t">${hm(e.ts)}</div><div><span class="k ${esc(e.kind)}">${esc(e.kind)}</span><span class="s">${esc(e.summary)}</span></div></div>`).join("")}`;
+  dlg.showModal();
+}
+async function openRole(name){
+  const d = await (await fetch(`/api/role/${encodeURIComponent(name)}`)).json();
+  $("#dlgbody").innerHTML = `<div class="row"><h2 style="margin:0">Role: ${esc(name)}</h2><span class="spacer"></span><button onclick="dlg.close()">Close</button></div><pre>${esc(d.text)}</pre>`;
+  if (!dlg.open) dlg.showModal();
+}
+async function openTask(id){
+  const t = await (await fetch(`/api/task/${id}`)).json();
+  $("#dlgbody").innerHTML = `<div class="row"><h2 style="margin:0">#${t.id} ${esc(t.title)}</h2><span class="spacer"></span><button onclick="dlg.close()">Close</button></div>
+    <div class="tag">${esc(t.status)} · role ${esc(t.role)} · by ${esc(t.created_by)} · assignee ${esc(t.assignee||"-")} · reviewer ${esc(t.reviewer||"-")} · attempts ${t.attempts}${t.venture?" · "+esc(t.venture):""}</div>
+    ${["description","acceptance","result","feedback"].filter(k=>t[k]).map(k=>`<h3>${k}</h3><pre>${esc(t[k])}</pre>`).join("")}`;
+  dlg.showModal();
+}
+document.addEventListener("click", e => {
+  const ag = e.target.closest("[data-agent]"), tk = e.target.closest("[data-task]"), rl = e.target.closest("[data-role]");
+  if (ag) openAgent(ag.dataset.agent); else if (tk) openTask(tk.dataset.task); else if (rl) openRole(rl.dataset.role);
+});
+const dlg = $("#dlg");
+
+async function tick(){
+  try {
+    S = await (await fetch("/api/state")).json();
+    renderHeader(S); renderOffice(S); renderBoard(S); renderVentures(S); renderFeed(S); renderChat(S);
+    firstLoad = false;
+  } catch(e) { $("#status").innerHTML = `<span class="dot halt"></span>Runtime offline`; }
+}
+tick(); setInterval(tick, 2500);
+</script>
+</body>
+</html>

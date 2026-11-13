@@ -1,0 +1,58 @@
+import json, subprocess, os
+H=os.path.expanduser("~"); R=H+"/genesis"; WT=R+"/var/worktrees/x--1"
+cases = [
+ # (tool, input, cwd, expect)
+ ("Bash", {"command":"ls ~/Documents"}, WT, "deny"),
+ ("Bash", {"command":f"cat {H}/.zshrc"}, WT, "deny"),
+ ("Bash", {"command":"rm -rf ~"}, WT, "deny"),
+ ("Bash", {"command":"cd ../../../../ && ls"}, WT, "deny"),
+ ("Bash", {"command":"git push origin main"}, WT, "deny"),
+ ("Bash", {"command":"gh repo delete TB0515/foo --yes"}, WT, "deny"),
+ ("Bash", {"command":"gh api repos/TB0515/QCare"}, WT, "deny"),
+ ("Bash", {"command":"gh api -X DELETE repos/x/y"}, WT, "deny"),
+ ("Bash", {"command":"curl -X POST https://example.com/signup -d email=a"}, WT, "deny"),
+ ("Bash", {"command":"npm publish"}, WT, "deny"),
+ ("Bash", {"command":"sudo ls"}, WT, "deny"),
+ ("Bash", {"command":"echo $GH_TOKEN"}, WT, "deny"),
+ ("Bash", {"command":"claude -p hi --dangerously-skip-permissions"}, WT, "deny"),
+ ("Bash", {"command":"osascript -e 'tell app'"}, WT, "deny"),
+ ("Bash", {"command":f"cat {H}/some-other-project/README.md"}, WT, "deny"),
+ ("Bash", {"command":"ls $HOME"}, WT, "deny"),
+ ("Bash", {"command":"git add -A && git commit -m 'Add parser (~5 min fix)'"}, WT, "allow"),
+ ("Bash", {"command":"npm install && npm test"}, WT, "allow"),
+ ("Bash", {"command":"python3 -m pytest -q"}, WT, "allow"),
+ ("Bash", {"command":"git log --oneline HEAD~3..HEAD"}, WT, "allow"),
+ ("Bash", {"command":f"ls {R}/org/memory"}, WT, "allow"),
+ ("Bash", {"command":"ls ~/genesis/docs"}, WT, "allow"),
+ ("Bash", {"command":"curl -s https://api.github.com/repos/python/cpython | head"}, WT, "allow"),
+ ("Bash", {"command":"curl -s -X POST http://localhost:8000/api -d x=1"}, WT, "allow"),
+ ("Bash", {"command":"gh api repos/TB0515/genesis/stargazers"}, WT, "allow"),
+ ("Bash", {"command":"gh repo view TB0515/TB0515"}, WT, "deny"),
+ ("Bash", {"command":"git clone https://github.com/TB0515/QCare"}, WT, "deny"),
+ ("Bash", {"command":"cd ../../ && ls"}, WT, "allow"),
+ ("Write", {"file_path":H+"/evil.txt","content":"x"}, WT, "deny"),
+ ("Write", {"file_path":R+"/CONSTITUTION.md","content":"x"}, WT, "deny"),
+ ("Edit", {"file_path":R+"/runtime/genesis/guard.py"}, WT, "deny"),
+ ("Write", {"file_path":R+"/org/roles/ceo.md"}, WT, "deny"),
+ ("Write", {"file_path":R+"/ventures/foo/x.py"}, WT, "deny"),
+ ("Write", {"file_path":"../../../../evil.txt"}, WT, "deny"),
+ ("Write", {"file_path":WT+"/src/app.py"}, WT, "allow"),
+ ("Write", {"file_path":"src/app.py"}, WT, "allow"),
+ ("Write", {"file_path":R+"/docs/index.html"}, WT, "allow"),
+ ("Read", {"file_path":H+"/.ssh/id_rsa"}, WT, "deny"),
+ ("Read", {"file_path":H+"/Documents/a.txt"}, WT, "deny"),
+ ("Read", {"file_path":"/usr/include/stdio.h"}, WT, "allow"),
+ ("Read", {"file_path":R+"/org/memory/mission.md"}, WT, "allow"),
+ ("Grep", {"pattern":"x","path":H}, WT, "deny"),
+ ("mcp__claude_ai_Gmail__send", {}, WT, "deny"),
+ ("mcp__company__create_task", {}, WT, "allow"),
+ ("CronCreate", {}, WT, "deny"),
+ ("WebSearch", {"query":"x"}, WT, "allow"),
+]
+bad=0
+for tool, inp, cwd, exp in cases:
+    p = subprocess.run([R+"/.venv/bin/python","-m","genesis.guard"], input=json.dumps({"tool_name":tool,"tool_input":inp,"cwd":cwd}),
+        capture_output=True, text=True, env={**os.environ,"PYTHONPATH":R+"/runtime","AGENT_ID":"guardtest","GENESIS_DB":R+"/var/test.db"})
+    got = "deny" if '"deny"' in p.stdout else "allow"
+    if got != exp or p.returncode: bad+=1; print("FAIL", tool, inp, "expected", exp, "got", got, p.stdout[:200], p.stderr[:200])
+print(f"{len(cases)-bad}/{len(cases)} guard cases pass")

@@ -1,0 +1,4 @@
+#!/bin/bash
+# Control the Genesis AI company. See: genesis help
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+PYTHONPATH="$ROOT/runtime" exec "$ROOT/.venv/bin/python" -m genesis.cli "$@"
