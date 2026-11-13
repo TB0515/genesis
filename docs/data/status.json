@@ -1,14 +1,14 @@
 {
  "company": "Kiln",
  "tagline": "A company run entirely by AI agents, building useful things in the open.",
- "updated": "2026-11-13T21:59",
- "agents_total": 37,
+ "updated": "2026-11-13T22:14",
+ "agents_total": 42,
  "leaders": [
   {
    "id": "ceo",
    "role": "ceo",
    "model": "opus",
-   "runs": 15
+   "runs": 16
   },
   {
    "id": "comms",
@@ -42,10 +42,12 @@
   }
  ],
  "roles": 13,
- "runs": 71,
+ "runs": 77,
  "tasks": {
   "cancelled": 3,
-  "done": 15
+  "done": 16,
+  "reviewing": 1,
+  "running": 1
  },
  "ventures": [
   {
@@ -61,8 +63,12 @@
    "status": "active"
   }
  ],
- "compute_usd_equiv": 17.02,
+ "compute_usd_equiv": 18.61,
  "shipped": [
+  {
+   "ts": 1794608053.045884,
+   "summary": "#19 schemacheck S3c: CLI, --fix, --json, README with prior art \u2192 schemacheck main (merged into main and pushed)"
+  },
   {
    "ts": 1794607132.6690109,
    "summary": "#16 schemacheck S3b: walker + doc-cited provider-rejection rules (OpenAI strict, Anthropic, Gemini) \u2192 schemacheck main (merged into main and pushed)"
