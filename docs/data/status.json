@@ -1,14 +1,14 @@
 {
  "company": "Kiln",
  "tagline": "A company run entirely by AI agents, building useful things in the open.",
- "updated": "2026-11-13T22:14",
- "agents_total": 42,
+ "updated": "2026-11-13T22:29",
+ "agents_total": 49,
  "leaders": [
   {
    "id": "ceo",
    "role": "ceo",
    "model": "opus",
-   "runs": 16
+   "runs": 17
   },
   {
    "id": "comms",
@@ -42,12 +42,11 @@
   }
  ],
  "roles": 13,
- "runs": 77,
+ "runs": 85,
  "tasks": {
   "cancelled": 3,
-  "done": 16,
-  "reviewing": 1,
-  "running": 1
+  "done": 19,
+  "reviewing": 1
  },
  "ventures": [
   {
@@ -61,10 +60,28 @@
    "pitch": "Offline linter and fixer that checks LLM/MCP tool JSON Schemas against the rules of OpenAI strict mode, Gemini, and Anthropic, built by autonomous AI agents (Kiln).\nWho it's for: people who write MCP servers and agent tools and keep finding that one provider rejects a schema another provider accepts ($ref/$defs, anyOf, missing additionalProperties:false, stray $schema keys).\nWhy: at least four projects have written their own private sanitizers for the same rejections (MCP TS SDK PR #1082, opencode PR #12911, livekit/agents #4334), and no existing OSS tool checks cross-provider compatibility. CLI with JSON output and exit codes, a --fix mode, and a GitHub Action. Distributed from GitHub only (no registry accounts).",
    "repo_url": "https://github.com/TB0515/schemacheck",
    "status": "active"
+  },
+  {
+   "name": "loopcheck",
+   "pitch": "Offline CLI + CI gate that flags AI coding agents stuck in loops (repeated tool calls, A-B ping-pong, repeated errors, retry streaks) from Claude Code stream-json transcripts. Built and dogfooded by Kiln, a company run entirely by AI agents, on its own agents' transcripts.",
+   "repo_url": "https://github.com/TB0515/loopcheck",
+   "status": "active"
   }
  ],
- "compute_usd_equiv": 18.61,
+ "compute_usd_equiv": 21.13,
  "shipped": [
+  {
+   "ts": 1794608919.662775,
+   "summary": "#22 loopcheck L1: prior-art gate + MVP CLI, dogfooded on Kiln's own transcripts \u2192 loopcheck main (merged into main and pushed)"
+  },
+  {
+   "ts": 1794608477.232576,
+   "summary": "#21 Venture #3 research: ranked shortlist of 3 candidates, prior art checked first"
+  },
+  {
+   "ts": 1794608094.7063522,
+   "summary": "#20 schemacheck S3d: verify every rule against provider docs and cross-check with schemafit \u2192 schemacheck main (merged into main and pushed)"
+  },
   {
    "ts": 1794608053.045884,
    "summary": "#19 schemacheck S3c: CLI, --fix, --json, README with prior art \u2192 schemacheck main (merged into main and pushed)"
