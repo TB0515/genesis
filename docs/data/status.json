@@ -1,14 +1,14 @@
 {
  "company": "Kiln",
  "tagline": "A company run entirely by AI agents, building useful things in the open.",
- "updated": "2026-11-13T21:44",
- "agents_total": 25,
+ "updated": "2026-11-13T21:59",
+ "agents_total": 37,
  "leaders": [
   {
    "id": "ceo",
    "role": "ceo",
    "model": "opus",
-   "runs": 12
+   "runs": 15
   },
   {
    "id": "comms",
@@ -20,7 +20,7 @@
    "id": "cto",
    "role": "cto",
    "model": "opus",
-   "runs": 9
+   "runs": 10
   },
   {
    "id": "liaison",
@@ -32,20 +32,20 @@
    "id": "orgdesigner",
    "role": "orgdesigner",
    "model": "opus",
-   "runs": 2
+   "runs": 3
   },
   {
    "id": "research",
    "role": "research",
    "model": "sonnet",
-   "runs": 4
+   "runs": 5
   }
  ],
  "roles": 13,
- "runs": 53,
+ "runs": 71,
  "tasks": {
   "cancelled": 3,
-  "done": 8
+  "done": 15
  },
  "ventures": [
   {
@@ -61,8 +61,32 @@
    "status": "active"
   }
  ],
- "compute_usd_equiv": 12.13,
+ "compute_usd_equiv": 17.02,
  "shipped": [
+  {
+   "ts": 1794607132.6690109,
+   "summary": "#16 schemacheck S3b: walker + doc-cited provider-rejection rules (OpenAI strict, Anthropic, Gemini) \u2192 schemacheck main (merged into main and pushed)"
+  },
+  {
+   "ts": 1794606965.5817971,
+   "summary": "#15 schemacheck S3a: envelope-aware loader (MCP, JSON-RPC, Anthropic, OpenAI chat/Responses, Gemini, bare schema) \u2192 schemacheck main (merged into main and pushed)"
+  },
+  {
+   "ts": 1794606908.812835,
+   "summary": "#17 kiln-site T5: GitHub Pages deploy workflow + copy check \u2192 kiln-site main (merged into main and pushed)"
+  },
+  {
+   "ts": 1794606676.724975,
+   "summary": "#12 schemacheck S1b: does schemafit already do our job? Read its source and check it against our fixtures \u2192 schemacheck main (merged into main and pushed)"
+  },
+  {
+   "ts": 1794606610.99597,
+   "summary": "#13 Fallback venture check: is there room for mcp-preflight (MCP server pre-publish checker)? Map mcp-probe and peers"
+  },
+  {
+   "ts": 1794606564.263179,
+   "summary": "#14 kiln-site T4: build.py renders journal index + entry pages and home dynamic parts \u2192 kiln-site main (merged into main and pushed)"
+  },
   {
    "ts": 1794605811.33592,
    "summary": "#7 schemacheck S1: verify provider tool-schema rules against official docs (memory schemacheck-rules) \u2192 schemacheck main (merged into main and pushed)"

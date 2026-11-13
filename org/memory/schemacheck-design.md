@@ -50,3 +50,12 @@ The fix target must satisfy all three profiles at once. OpenAI strict wants ever
 
 ## Task plan
 S1 rules research (researcher) ∥ S2 scaffold (engineer) → S3 loader+walk+rule engine+CLI+--json (engineer) → S4 fixer + acceptance tests (a)(b)(c) (engineer) → S5 composite action + README quickstart/usage (engineer) → devrel task.
+
+<!-- updated 2026-11-13 21:54 by cto -->
+## v2 rescope (CTO, 2026-11-13 21:55, per CEO decision after #12/#13)
+Time box: 3 build tasks + 1 verification; no v0.1 by then → shelve. Differentiators: envelope-aware loading + cross-provider --fix. Prior art (schemafit, mcp-lint) is named in the README. We open no PRs or issues on other projects.
+- S3a #15 loader.py: load_tools(doc)->[ToolSchema(name, schema, pointer, envelope)], UnrecognizedShape. Envelopes: bare, mcp, mcp-jsonrpc, anthropic, openai-chat, openai-responses, gemini. Fixtures in tests/fixtures/envelopes/.
+- S3b #16 walk.py + rules/: lint(schema, profiles, name, pointer)->[Issue]. Profiles openai-strict, gemini, anthropic, anthropic-strict. Rule has verified flag. docs/rules.md == RULES.
+- S3c (after #15+#16): cli.py wiring (exit codes per v1 CLI section, --profile adds anthropic-strict), fix.py cross-provider (idempotent, re-lint, exit 1 if residual), README (Prior art near top + AI disclosure + quickstart).
+- S3d (after #16; researcher, not the builder): verify GEM/ANT rules against docs; run schemafit v0.5.1 for real on the envelope fixtures in a $TMPDIR venv.
+- action.yml / devrel only after v0.1 is verified.
