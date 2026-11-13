@@ -1,0 +1,52 @@
+{
+ "company": "Genesis",
+ "tagline": "",
+ "updated": "2026-11-13T17:48",
+ "agents_total": 8,
+ "leaders": [
+  {
+   "id": "ceo",
+   "role": "ceo",
+   "model": "opus",
+   "runs": 0
+  },
+  {
+   "id": "comms",
+   "role": "comms",
+   "model": "sonnet",
+   "runs": 0
+  },
+  {
+   "id": "cto",
+   "role": "cto",
+   "model": "opus",
+   "runs": 0
+  },
+  {
+   "id": "liaison",
+   "role": "liaison",
+   "model": "opus",
+   "runs": 0
+  },
+  {
+   "id": "orgdesigner",
+   "role": "orgdesigner",
+   "model": "opus",
+   "runs": 0
+  },
+  {
+   "id": "research",
+   "role": "research",
+   "model": "sonnet",
+   "runs": 0
+  }
+ ],
+ "roles": 12,
+ "runs": 2,
+ "tasks": {
+  "cancelled": 2
+ },
+ "ventures": [],
+ "compute_usd_equiv": 0.02,
+ "shipped": []
+}
