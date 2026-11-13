@@ -113,9 +113,15 @@ class Scheduler:
                 jobs.append((aid, "leader", reason, None))
 
         # 1) messages to leaders (the Patron's messages to the liaison come first)
-        for m in c.execute("SELECT recipient, COUNT(*) n, MAX(sender='patron') p FROM messages WHERE read_at IS NULL "
-                           "GROUP BY recipient ORDER BY p DESC"):
-            add_leader(m["recipient"], f"You have {m['n']} unread message(s)." + (" One is from the Patron." if m["p"] else ""))
+        # Batch chatter: a leader wakes at once for the Patron or if it's been quiet a while; otherwise
+        # messages accumulate ~90s so several land in one turn instead of many tiny turns.
+        now0 = db.now()
+        for m in c.execute("SELECT recipient, COUNT(*) n, MAX(sender='patron') p, MIN(created_at) oldest FROM messages "
+                           "WHERE read_at IS NULL GROUP BY recipient ORDER BY p DESC"):
+            lead = leaders.get(m["recipient"])
+            quiet = lead and now0 - (lead["last_run_at"] or 0) > 300
+            if m["p"] or quiet or now0 - m["oldest"] > 90:
+                add_leader(m["recipient"], f"You have {m['n']} unread message(s)." + (" One is from the Patron." if m["p"] else ""))
         # 2a) contests whose entries are all in → a judge
         for ct in db.rows(c.execute("SELECT * FROM tasks WHERE status='contest' ORDER BY priority, id")):
             if len(jobs) >= slots:

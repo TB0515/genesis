@@ -14,6 +14,12 @@ from . import db, gitops, roles
 from .config import (GH_OWNER, JOURNAL_DIR, MAX_ACTIVE_VENTURES, MAX_OPEN_TASKS, MAX_TASK_ATTEMPTS,
                      MEMORY_DIR, OUTREACH_PER_WEEK, PROTECTED_REPOS, ROLES_DIR)
 
+# The agent's process env points config/caches into the sandbox (runner.sandbox_env). This server is
+# runtime code, not agent code: restore the real config so `gh`/git (venture creation) can authenticate.
+# Agents themselves still can't reach credentials: their shells are sandboxed and guarded.
+for _k in ("XDG_CONFIG_HOME", "XDG_CACHE_HOME", "GIT_CONFIG_GLOBAL", "GIT_CONFIG_NOSYSTEM", "TMPDIR"):
+    os.environ.pop(_k, None)
+
 AGENT_ID = os.environ.get("AGENT_ID", "unknown")
 RUN_ID = int(os.environ.get("RUN_ID", "0") or 0)
 conn = db.connect()
