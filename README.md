@@ -80,10 +80,11 @@ tests/                 guard battery + end-to-end scheduler test with a fake age
 
 ```bash
 bin/genesis selftest   # one cheap agent attempts forbidden things; every fence must hold
-bin/genesis start      # the company runs in the background; dashboard at http://localhost:7777
+bin/genesis start      # registers a launchd agent: starts at login, restarts itself on crash; dashboard at http://localhost:7777
 bin/genesis status
 bin/genesis say "hello"   # message the liaison
-bin/genesis stop
+bin/genesis restart    # pick up runtime code changes
+bin/genesis stop       # stop and remove autostart
 ```
 
 Requires macOS, Claude Code (logged in), `gh` (logged in), and `uv`.

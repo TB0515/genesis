@@ -1,8 +1,9 @@
 """genesis: control the company.
 
   genesis selftest        spawn one cheap agent that tries forbidden things; prove the fences hold
-  genesis start           start the company in the background (stays awake while the Mac is on)
-  genesis stop            stop it (running agents are interrupted; work resumes on next start)
+  genesis start           run under launchd: starts at login, restarts on crash, survives reboots
+  genesis stop            stop and remove autostart (interrupted work resumes on next start)
+  genesis restart         restart the runtime (picks up code changes)
   genesis status          one-screen summary
   genesis open            open the live dashboard
   genesis say "..."       message the liaison from the terminal
@@ -18,6 +19,7 @@ import subprocess
 import sys
 import time
 import webbrowser
+from pathlib import Path
 
 from . import db, roles
 from .config import DASHBOARD_PORT, GH_OWNER, LOGS, MEMORY_DIR, PROTECTED_FILE, PYTHON, ROOT, RUNTIME, VAR
@@ -106,41 +108,104 @@ def seed():
     print("seeded")
 
 
+LABEL = "com.genesis.company"
+PLIST = Path.home() / "Library" / "LaunchAgents" / f"{LABEL}.plist"
+
+
+def _domain() -> str:
+    return f"gui/{os.getuid()}"
+
+
+def _plist() -> str:
+    home = str(Path.home())
+    path = f"{home}/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>{LABEL}</string>
+  <key>ProgramArguments</key><array>
+    <string>/usr/bin/caffeinate</string><string>-is</string>
+    <string>{PYTHON}</string><string>-m</string><string>genesis.scheduler</string>
+  </array>
+  <key>WorkingDirectory</key><string>{ROOT}</string>
+  <key>EnvironmentVariables</key><dict>
+    <key>PYTHONPATH</key><string>{RUNTIME}</string>
+    <key>PATH</key><string>{path}</string>
+  </dict>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>ThrottleInterval</key><integer>30</integer>
+  <key>StandardOutPath</key><string>{LOGS}/launchd.log</string>
+  <key>StandardErrorPath</key><string>{LOGS}/launchd.log</string>
+</dict></plist>
+"""
+
+
+def _launchctl(*args) -> subprocess.CompletedProcess:
+    return subprocess.run(["launchctl", *args], capture_output=True, text=True)
+
+
+def _loaded() -> bool:
+    return _launchctl("print", f"{_domain()}/{LABEL}").returncode == 0
+
+
+def _stop_legacy():
+    """The pre-launchd supervisor loop (started by hand), if it's still around."""
+    pid = running_pid()
+    if pid:
+        try:
+            os.killpg(pid, signal.SIGTERM)
+            time.sleep(3)
+            os.killpg(pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+    PIDFILE.unlink(missing_ok=True)
+
+
 def start():
-    if running_pid():
-        print("already running")
-        return
+    """Install as a launchd agent: starts at login, restarts on crash, survives reboots."""
     seed()
     LOGS.mkdir(parents=True, exist_ok=True)
-    loop = (f"while true; do caffeinate -is env PYTHONPATH={RUNTIME} {PYTHON} -m genesis.scheduler; "
-            f"echo \"$(date) runtime exited; restarting in 15s\" >> {LOGS}/supervisor.log; sleep 15; done")
-    p = subprocess.Popen(["/bin/bash", "-c", loop], cwd=ROOT, stdout=open(LOGS / "stdout.log", "a"),
-                         stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, start_new_session=True)
-    PIDFILE.write_text(str(p.pid))
-    time.sleep(2)
-    print(f"Company is running (pid {p.pid}). Dashboard: http://localhost:{DASHBOARD_PORT}")
+    _stop_legacy()
+    PLIST.parent.mkdir(parents=True, exist_ok=True)
+    if not PLIST.exists() or PLIST.read_text() != _plist():
+        if _loaded():
+            _launchctl("bootout", f"{_domain()}/{LABEL}")
+        PLIST.write_text(_plist())
+    if not _loaded():
+        r = _launchctl("bootstrap", _domain(), str(PLIST))
+        if r.returncode != 0:
+            sys.exit(f"launchctl bootstrap failed: {r.stderr.strip()}")
+    print(f"Company is running under launchd ({LABEL}): starts at login, restarts itself if it crashes.\n"
+          f"Dashboard: http://localhost:{DASHBOARD_PORT}")
+
+
+def restart():
+    _stop_legacy()
+    if not _loaded():
+        return start()
+    _launchctl("kickstart", "-k", f"{_domain()}/{LABEL}")
+    print("restarted")
 
 
 def stop():
-    pid = running_pid()
-    if not pid:
-        print("not running")
-        return
-    os.killpg(pid, signal.SIGTERM)
-    time.sleep(3)
-    try:
-        os.killpg(pid, signal.SIGKILL)
-    except ProcessLookupError:
-        pass
-    PIDFILE.unlink(missing_ok=True)
-    print("stopped")
+    """Stop and unregister (it won't come back at login until `genesis start`)."""
+    _stop_legacy()
+    if _loaded():
+        _launchctl("bootout", f"{_domain()}/{LABEL}")
+    PLIST.unlink(missing_ok=True)
+    print("stopped (autostart removed)")
+
+
+def _alive() -> bool:
+    return _loaded() and "state = running" in _launchctl("print", f"{_domain()}/{LABEL}").stdout
 
 
 def status():
     c = _conn()
     pu = db.get_state(c, "paused_until", 0)
     print(f"{db.get_state(c, 'company_name', 'Genesis')}: {db.get_state(c, 'tagline', '')}")
-    print(f"runtime: {'running' if running_pid() else 'stopped'}"
+    print(f"runtime: {'running (launchd)' if _alive() else 'running (legacy loop)' if running_pid() else 'stopped'}"
           + (f" · sleeping until {dt.datetime.fromtimestamp(pu):%a %H:%M}" if pu and pu > time.time() else "")
           + (" · HALTED" if db.get_state(c, "halted") else ""))
     print("agents ever:", c.execute("SELECT COUNT(*) FROM agents").fetchone()[0],
@@ -235,7 +300,7 @@ def main():
     elif cmd == "stop":
         stop()
     elif cmd == "restart":
-        stop(); start()
+        restart()
     elif cmd == "status":
         status()
     elif cmd == "seed":
