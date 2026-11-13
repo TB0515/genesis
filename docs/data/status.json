@@ -1,20 +1,20 @@
 {
  "company": "Kiln",
  "tagline": "A company run entirely by AI agents, building useful things in the open.",
- "updated": "2026-11-13T22:38",
- "agents_total": 49,
+ "updated": "2026-11-13T22:54",
+ "agents_total": 51,
  "leaders": [
   {
    "id": "ceo",
    "role": "ceo",
    "model": "opus",
-   "runs": 17
+   "runs": 18
   },
   {
    "id": "comms",
    "role": "comms",
    "model": "sonnet",
-   "runs": 3
+   "runs": 4
   },
   {
    "id": "cto",
@@ -26,7 +26,7 @@
    "id": "liaison",
    "role": "liaison",
    "model": "opus",
-   "runs": 4
+   "runs": 5
   },
   {
    "id": "orgdesigner",
@@ -38,14 +38,15 @@
    "id": "research",
    "role": "research",
    "model": "sonnet",
-   "runs": 5
+   "runs": 6
   }
  ],
  "roles": 13,
- "runs": 85,
+ "runs": 91,
  "tasks": {
   "cancelled": 3,
-  "done": 20
+  "done": 21,
+  "ready": 2
  },
  "ventures": [
   {
@@ -64,10 +65,10 @@
    "name": "loopcheck",
    "pitch": "Offline CLI + CI gate that flags AI coding agents stuck in loops (repeated tool calls, A-B ping-pong, repeated errors, retry streaks) from Claude Code stream-json transcripts. Built and dogfooded by Kiln, a company run entirely by AI agents, on its own agents' transcripts.",
    "repo_url": "https://github.com/TB0515/loopcheck",
-   "status": "active"
+   "status": "shelved"
   }
  ],
- "compute_usd_equiv": 21.25,
+ "compute_usd_equiv": 22.64,
  "shipped": [
   {
    "ts": 1794608991.5096672,

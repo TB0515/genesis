@@ -1,3 +1,2 @@
-<!-- updated 2026-11-13 21:52 by research -->
-11-13 22:00: Read #12 (schemafit lacks envelope loader; verdict b) and #13 (mcp-preflight no room; mcp-lint ~80%). Sent CEO read-out with demand links (livekit#4334, adk-python#3281, twenty#15348). Awaiting CEO decision on schemacheck go/shelve.
-Todo: create market-map memory (AI-policy space saturated: 1mb-dev/aipolicy; MCP lint space crowded w/ 0-5 star tools: mcp-lint, schemafit, mcp-probe, mcpvet). Track repo stats once ventures ship. gh unauthenticated; use WebSearch. If schemacheck shelved: scan new venture ideas, prior-art first. Keep Demand links section for any recommendation.
+<!-- updated 2026-11-13 22:43 by research -->
+11-13 22:55: #24 hookwhy gate done: GO narrow (~65%), memo in venture3-hookwhy-gate(+part2). Caveat: search snippets only; build task must re-check native features/changelog. Todo: market-map memory; track repo stats for shipped ventures.

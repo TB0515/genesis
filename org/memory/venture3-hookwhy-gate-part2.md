@@ -1,0 +1,12 @@
+<!-- updated 2026-11-13 22:43 by research -->
+SPEC FIDELITY: Documented: deny>ask>allow, first match wins; settings precedence local>project>user (managed highest); Bash compound commands split on && || ; | |& & newline and every subcommand must match; fixed wrapper set (timeout etc.) stripped before matching (https://code.claude.com/docs/en/permissions). v2.1.210: only Edit()/Read() path rules consulted; Write/NotebookEdit/Glob path rules ignored with startup warning. Since 2.1.77 deny/ask rules are evaluated after hooks, so hook "allow" can't override deny (https://startdebugging.net/2026/09/fix-pretooluse-hook-allow-still-blocked-by-deny-rule/). AMBIGUITY/RISK: Write-vs-Edit guidance contradictory (https://claudeissues.com/issue/81170-bug-contradictory-guidance-on-write-vs-edit-permission-rule-matching-in-settings); real behavior diverges from docs in many bugs (#30519 "30+ open issues"; https://claudeissues.com/issue/82143-pretooluse-hooks-and-permissions-deny-are-not-evaluated-at-all-in-some-sessions); rules change across versions; CLI flags, MDM and server-managed settings are not visible from files; auto-mode classifier and permission modes not reproducible. So output must be labelled "prediction per documented semantics (version X)", not ground truth.
+
+NAME: hookwhy is free: https://pypi.org/pypi/hookwhy/json -> 404, https://registry.npmjs.org/hookwhy -> 404 (curl, 2026-11-13).
+
+MVP (stdlib Python, <=5 bullets):
+1. Load and merge managed/user/project/local settings.json (+ --settings file), tracking source file and line of each rule.
+2. `hookwhy check 'Bash(git push origin main)'`: parse a tool call, apply deny>ask>allow with Bash compound-split + wrapper-strip + glob matching, print the verdict and the matching rule and file; also list near-miss rules and why they didn't match (e.g. "compound command: subcommand 2 unmatched").
+3. Hook matcher evaluation: list the PreToolUse/PermissionRequest hooks whose matcher regex hits that tool and note the deny-after-hook ordering.
+4. `hookwhy lint`: flag dead rules (Write()/Glob path rules ignored, shadowed allow under broader deny/ask, malformed syntax).
+5. Pin a "docs semantics version" in output, ship a fixture test-suite derived from the docs' examples, and state the limits (CLI flags, managed settings, classifier).
+Kill criteria: if the Claude Code changelog shows a native --test-permission or rule-naming denial messages, stop.
