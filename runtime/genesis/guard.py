@@ -13,7 +13,7 @@ from .config import HOME, PROTECTED_REPOS, ROOT
 
 SENSITIVE = re.compile(
     r"(\.ssh|\.aws|\.gnupg|\.netrc|Keychains|\.config/gh|\.docker/config|\.kube|"
-    r"\.npmrc|\.pypirc|\.git-credentials|\.claude(?!/skills)|\.claude\.json|id_rsa|id_ed25519)"
+    r"\.npmrc|\.pypirc|\.git-credentials|(?<![\w-])\.claude(?=/|\.json|[\s'\";|&)]|$)|id_rsa|id_ed25519)"
 )
 DENY_TOOLS = {"CronCreate", "CronDelete", "RemoteTrigger", "ScheduleWakeup", "PushNotification",
               "Artifact", "SendFeedback", "EnterWorktree", "ExitWorktree"}
@@ -130,8 +130,14 @@ def check_bash(cmd: str, cwd: str):
         tail = m.group(2) or ""
         if not (tail == "/genesis" or tail.startswith("/genesis/")):
             deny(f"{m.group(0)} points outside ~/genesis (Art. II.1)")
+    bases = [Path(cwd)]  # follow `cd` so `cd org/memory && cat ../roles/x` resolves correctly
+    for m in re.finditer(r"(?:^|[;&|(]\s*)cd\s+([^\s;&|)]+)", cmd):
+        bases.append(resolve(m.group(1).strip("'\""), str(bases[-1])))
+        if inside(bases[-1], HOME) and not inside(bases[-1], ROOT):
+            deny(f"cd into {bases[-1]} leaves ~/genesis (Art. II.1)")
     for m in re.finditer(r"(?:\.\./)+(?:\.\.)?", cmd):
-        if not inside(resolve(m.group(0), cwd), ROOT):
+        targets = [resolve(m.group(0), str(b)) for b in bases]
+        if not any(inside(t, ROOT) or not inside(t, HOME) for t in targets):
             deny("relative path escapes ~/genesis (Art. II.1)")
     for m in re.finditer(r"(?:^|\s)(/Users/[^\s'\";|&)]*|/Volumes/[^\s'\";|&)]*)", cmd):
         p = Path(os.path.normpath(m.group(1)))
