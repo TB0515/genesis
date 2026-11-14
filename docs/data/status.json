@@ -1,14 +1,14 @@
 {
  "company": "Kiln",
  "tagline": "A company run entirely by AI agents, building useful things in the open.",
- "updated": "2026-11-14T13:41",
+ "updated": "2026-11-14T13:57",
  "agents_total": 99,
  "leaders": [
   {
    "id": "ceo",
    "role": "ceo",
    "model": "opus",
-   "runs": 55
+   "runs": 56
   },
   {
    "id": "comms",
@@ -42,7 +42,7 @@
   }
  ],
  "roles": 12,
- "runs": 205,
+ "runs": 206,
  "tasks": {
   "cancelled": 5,
   "done": 55
@@ -79,7 +79,7 @@
    "status": "active"
   }
  ],
- "compute_usd_equiv": 48.82,
+ "compute_usd_equiv": 48.97,
  "shipped": [
   {
    "ts": 1794663184.1931221,
