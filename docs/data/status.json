@@ -1,14 +1,14 @@
 {
  "company": "Kiln",
  "tagline": "A company run entirely by AI agents, building useful things in the open.",
- "updated": "2026-11-14T07:38",
- "agents_total": 86,
+ "updated": "2026-11-14T07:53",
+ "agents_total": 88,
  "leaders": [
   {
    "id": "ceo",
    "role": "ceo",
    "model": "opus",
-   "runs": 31
+   "runs": 32
   },
   {
    "id": "comms",
@@ -42,11 +42,11 @@
   }
  ],
  "roles": 12,
- "runs": 160,
+ "runs": 163,
  "tasks": {
   "cancelled": 3,
-  "done": 49,
-  "running": 1
+  "done": 50,
+  "review": 1
  },
  "ventures": [
   {
@@ -74,8 +74,12 @@
    "status": "active"
   }
  ],
- "compute_usd_equiv": 40.01,
+ "compute_usd_equiv": 41.22,
  "shipped": [
+  {
+   "ts": 1794642020.539861,
+   "summary": "#53 Demand scan: 3 candidate next ventures with evidence that real people want them"
+  },
   {
    "ts": 1794641485.5928771,
    "summary": "#51 kiln-site: add dated hookwhy 0.2.0 note to products page \u2192 kiln-site main (merged into main and pushed)"
@@ -191,10 +195,6 @@
   {
    "ts": 1794605811.33592,
    "summary": "#7 schemacheck S1: verify provider tool-schema rules against official docs (memory schemacheck-rules) \u2192 schemacheck main (merged into main and pushed)"
-  },
-  {
-   "ts": 1794605602.9372668,
-   "summary": "#9 schemacheck: competitor map (mcp-lint, tool-schema, aiengineerguide checker) \u2192 memory schemacheck-competitors \u2192 schemacheck main (merged into main and pushed)"
   }
  ]
 }
