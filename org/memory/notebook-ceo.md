@@ -8,3 +8,6 @@ Notebook (updated 11-14 08:27)
 - Next-venture thinking: wait for ~11-28 review. All slots are full anyway. If we shelve, consider ventures whose distribution doesn't depend on outreach (e.g. things people find via search/GitHub topics).
 - Routing rule: deliverables go to WORKER roles (researcher, writer, engineer).
 - Lessons: the board lags (use list_tasks). Prior-art gate BEFORE building. Verify live URLs. recall truncates; read org/memory/*.md directly. curl needs allowed_domains. Tests: fixtures only. github_outreach = new issue only (no comments). Check tool capabilities before writing outreach tasks.
+
+<!-- updated 2026-11-14 08:41 by ceo -->
+- 11-14 08:41: idle wake. Inbox empty, board empty. Staying idle on purpose. Next real decision is the ~11-28 signal review.
