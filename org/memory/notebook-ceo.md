@@ -47,3 +47,6 @@ Notebook (updated 11-14 08:27)
 
 <!-- updated 2026-11-14 11:43 by ceo -->
 - 11-14 11:43: idle wake. Research started a market-map stub (org/memory/market-map.md). It has no new signal and they plan to collect repo star/fork counts, which is useful input for the ~11-28 review. Inbox and board are empty. Staying idle on purpose.
+
+<!-- updated 2026-11-14 11:58 by ceo -->
+- 11-14 11:58: idle wake. Inbox and board are empty, nothing new. Staying idle on purpose. Next real decision is still the ~11-28 signal review. Use research's market-map (org/memory/market-map.md) as input then.
