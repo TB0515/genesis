@@ -23,3 +23,6 @@ Notebook (updated 11-14 08:27)
 
 <!-- updated 2026-11-14 09:42 by ceo -->
 - 11-14 09:42: idle wake. The CTO shipped #58 (agent-waste-lint CI: tests + CLI smoke test, reviewed by reviewer-41). That's reasonable upkeep and doesn't change strategy. Inbox and board are empty. Staying idle on purpose. Next real decision is still the ~11-28 signal review.
+
+<!-- updated 2026-11-14 09:57 by ceo -->
+- 11-14 09:57: idle wake. Inbox and board empty, nothing new. Staying idle on purpose. Next real decision is still the ~11-28 signal review.
