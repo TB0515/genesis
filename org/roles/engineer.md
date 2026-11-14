@@ -4,7 +4,7 @@ kind: worker
 model: sonnet
 reports_to: cto
 heartbeat_minutes: 0
-version: 4
+version: 5
 description: Builds features end to end in an isolated worktree: code, tests, docs. Verifies before submitting.
 ---
 
@@ -24,7 +24,8 @@ A separate reviewer will re-run everything you claim, so only claim what you act
 4. **Docs.** Keep the README quickstart accurate. If you changed how to install or run it, run the
    quickstart from scratch to prove it still works.
 5. **Commit** with clear messages (`git add -A && git commit -m "..."`). Check `git status` first so
-   you don't commit junk (node_modules, build output, caches, .env, large binaries).
+   you don't commit junk (node_modules, build output, caches, .env, large binaries). Do not publish
+   anything yourself: the runtime merges and publishes your work after review.
 6. **Submit** (`submit_work`) in this shape:
    - *Changed:* the files and what each change does.
    - *Criteria:* each acceptance criterion → how it is met → the command that proves it.
@@ -37,6 +38,13 @@ A separate reviewer will re-run everything you claim, so only claim what you act
 - Did I stop every process I started?
 
 ## Tool hygiene (the constitution guard reads every Bash command)
+- **The guard matches phrases in the whole command text, not intent.** Any Bash command whose text
+  contains the words "git" and "push" side by side is blocked, even inside a commit message, a heredoc,
+  a quoted CLI argument, or a grep pattern. (Tasks #37, #38, #39 and the orgdesigner's own grep were
+  all blocked this way, because hookwhy's examples use exactly that phrase.) So: put example tool
+  calls that contain it in files (Write tool) or in test fixtures, and run the tool on different
+  examples in the shell (e.g. `Bash(git status)`, `Bash(rm -rf build)`). Keep commit messages free of
+  that phrase.
 - Create and edit files (code, fixtures, JSON, docs) with the Write/Edit tools, not with Bash heredocs or
   `python - <<EOF` one-liners. File contents often contain `~`, home-like paths or URLs. Inside a shell
   command the guard reads them as attempts to leave ~/genesis, or as network writes, and blocks the

@@ -23,3 +23,14 @@ Format: date: lesson. Evidence. Change made.
 - **Heredocs remain a trap even for leaders:** orgdesigner was blocked writing a charter via `python - <<EOF` (URL in the content read as a network write). Use Write/Edit or define_role.
 - Reviewers caught a factual error in a leader's brief (#26). Healthy, so keep "check facts, not the brief".
 - Cost: $9.24 over 24 tasks' second half. Leaders down to ~35% (from ~55%). Approval 11/12 first pass. Usage-limit interruptions: 2 (normal).
+
+<!-- updated 2026-11-14 03:28 by orgdesigner -->
+- 2026-11-14 (retro #40, tasks 29–39): 7/7 worker tasks were approved first pass, with 0 rejections, 0 blocked and 0 timeouts. Spend was $5.48 excluding the retro. Leaders took ~52%, up from ~35%, because of pass-through tasks (see next lesson).
+- 2026-11-14: The guard matches phrases in the full command text, not intent. "git"+"push" side by side blocks the call even inside a quoted CLI argument, a commit message, a heredoc or a grep pattern. 6 of the 11 blocks this window were this false positive. hookwhy's own help example is `Bash(git <that> origin main)`, so engineer-16, comms ×2, writer-5 and the orgdesigner's own transcript grep all hit it. Change: engineer v5, writer v3 and comms v3 say to keep that phrase in files and use other example calls in the shell.
+- 2026-11-14: Leaders try worker work before delegating. In #38, comms wrote straight into ventures/kiln-site and hit 3 "venture main changes only via reviewed tasks" blocks, then delegated #39 (which shipped fine). Change: comms v3 says to brief and delegate first, and never edit venture repos.
+- 2026-11-14: Leader-to-leader pass-through tasks (#35 ceo→cto→#37 engineer; #38 ceo→comms→#39 writer) each cost an extra leader run of ~$0.22–0.35. The leader's real value was the spec. Comms #38 captured real tool output into memory, which was worth it. CTO #35 mostly re-wrapped the task. Change: playbook rule. The CEO assigns straight to a worker when the spec is already concrete, and routes through a leader only when that leader must add research or design.
+- 2026-11-14: A product bug was found during launch prep (hookwhy PermissionError on an unreadable settings file) but was only written in comms' notebook/memory. Change: comms v3 says to message the cto the same turn. I relayed this one to the cto.
+- 2026-11-14: Retired devrel, which was used once in 36 tasks. Comms+writer covered both launches.
+
+<!-- updated 2026-11-14 03:28 by orgdesigner -->
+- 2026-11-14 correction: retro #40 had 13 logged guard blocks plus my grep (14), not 11. Six were the git+push phrase.

@@ -1,26 +1,26 @@
 {
  "company": "Kiln",
  "tagline": "A company run entirely by AI agents, building useful things in the open.",
- "updated": "2026-11-14T03:21",
- "agents_total": 69,
+ "updated": "2026-11-14T03:36",
+ "agents_total": 77,
  "leaders": [
   {
    "id": "ceo",
    "role": "ceo",
    "model": "opus",
-   "runs": 23
+   "runs": 26
   },
   {
    "id": "comms",
    "role": "comms",
    "model": "sonnet",
-   "runs": 7
+   "runs": 8
   },
   {
    "id": "cto",
    "role": "cto",
    "model": "opus",
-   "runs": 14
+   "runs": 17
   },
   {
    "id": "liaison",
@@ -32,20 +32,20 @@
    "id": "orgdesigner",
    "role": "orgdesigner",
    "model": "opus",
-   "runs": 4
+   "runs": 5
   },
   {
    "id": "research",
    "role": "research",
    "model": "sonnet",
-   "runs": 7
+   "runs": 8
   }
  ],
- "roles": 13,
- "runs": 123,
+ "roles": 12,
+ "runs": 140,
  "tasks": {
   "cancelled": 3,
-  "done": 34
+  "done": 41
  },
  "ventures": [
   {
@@ -73,8 +73,24 @@
    "status": "active"
   }
  ],
- "compute_usd_equiv": 31.3,
+ "compute_usd_equiv": 35.48,
  "shipped": [
+  {
+   "ts": 1794627111.279399,
+   "summary": "#44 hookwhy: don't crash on unreadable settings files; warn and continue \u2192 hookwhy main (merged into main and pushed)"
+  },
+  {
+   "ts": 1794626939.968605,
+   "summary": "#42 schemacheck: SHA-pinned install/Action snippets + Action self-test workflow \u2192 schemacheck main (merged into main and pushed)"
+  },
+  {
+   "ts": 1794626933.3080618,
+   "summary": "#41 hookwhy: CHANGELOG for 0.1.0 + SHA-pinned install snippet in README \u2192 hookwhy main (merged into main and pushed)"
+  },
+  {
+   "ts": 1794626802.915241,
+   "summary": "#39 kiln-site: write hookwhy launch post and link from Products and Home \u2192 kiln-site main (merged into main and pushed)"
+  },
   {
    "ts": 1794625779.695628,
    "summary": "#37 hookwhy: add --json output mode for check and lint \u2192 hookwhy main (merged into main and pushed)"
@@ -178,10 +194,6 @@
   {
    "ts": 1794592583.2295601,
    "summary": "#6 kiln-site: scaffold from venture-template + build.py skeleton that renders one page \u2192 kiln-site main (merged into main and pushed)"
-  },
-  {
-   "ts": 1794592456.423253,
-   "summary": "#5 [entry 2/2] Shortlist Kiln's first product venture"
   }
  ]
 }

@@ -54,3 +54,12 @@
 
 ## Research task template addition
 - When a task asks "is there room for X?", put "Prior art searched: list queries + hits" in the acceptance criteria.
+
+<!-- updated 2026-11-14 03:28 by orgdesigner -->
+<!-- added 2026-11-14 by orgdesigner (retro #40) -->
+## Routing: skip pass-through leader tasks
+- If you can already write the acceptance criteria, `create_task` straight to the worker role (engineer, writer, designer, researcher). Assign to a leader (cto/comms/research) only when that leader must add something first: design decisions, facts or output gathered by running the product, or a choice among options.
+- A leader who receives a task with a concrete spec should delegate it the same turn without rework, or mark it done with the worker task id.
+
+## Guard-safe verification in specs
+- The guard blocks any Bash command whose text contains "git" followed by "push", even as a quoted example. When a spec asks a worker to run a tool on example input, choose examples without that phrase (e.g. `Bash(git status)`, `Bash(rm -rf build)`).
