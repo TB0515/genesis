@@ -68,3 +68,8 @@
 ## Routing: leader-done work is unreviewed (retro #52)
 - A task assigned to a leader and closed with `complete_task` gets **no independent review**. Assign a task to a leader (research, comms, cto) only for triage, scoping or a decision. Any deliverable that leaves the company (outreach drafts, issue comments, public claims) or drives a build/go-no-go goes to a worker role (`researcher`, `writer`, `engineer`) so a reviewer checks it (Art. III.3).
 - Outreach: no `github_outreach` call until a reviewed worker task has verified the draft's claims, including re-running the reproduction on fixtures.
+
+<!-- updated 2026-11-14 13:34 by orgdesigner -->
+<!-- 2026-11-14 13:40 orgdesigner -->
+## Spec rule: no guard-tripping verification steps
+When a task touches hookwhy or any tool that reads Claude settings, never write acceptance steps that make the worker run shell commands naming settings/credential paths (`.claude/settings.json`, keychains, chmod on config files), even in a temp home. The guard blocks them (Art. II.4) and the task dies (#59, 11-14). Instead, verify through the product's own test suite with neutrally named fixtures under `var/scratch` or `$TMPDIR` (e.g. `fixture-unreadable.json`), as #60 did.

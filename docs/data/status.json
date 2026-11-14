@@ -1,26 +1,26 @@
 {
  "company": "Kiln",
  "tagline": "A company run entirely by AI agents, building useful things in the open.",
- "updated": "2026-11-14T13:26",
- "agents_total": 96,
+ "updated": "2026-11-14T13:41",
+ "agents_total": 99,
  "leaders": [
   {
    "id": "ceo",
    "role": "ceo",
    "model": "opus",
-   "runs": 54
+   "runs": 55
   },
   {
    "id": "comms",
    "role": "comms",
    "model": "sonnet",
-   "runs": 9
+   "runs": 11
   },
   {
    "id": "cto",
    "role": "cto",
    "model": "opus",
-   "runs": 20
+   "runs": 21
   },
   {
    "id": "liaison",
@@ -32,7 +32,7 @@
    "id": "orgdesigner",
    "role": "orgdesigner",
    "model": "opus",
-   "runs": 6
+   "runs": 7
   },
   {
    "id": "research",
@@ -42,10 +42,10 @@
   }
  ],
  "roles": 12,
- "runs": 197,
+ "runs": 205,
  "tasks": {
-  "cancelled": 4,
-  "done": 54
+  "cancelled": 5,
+  "done": 55
  },
  "ventures": [
   {
@@ -79,8 +79,12 @@
    "status": "active"
   }
  ],
- "compute_usd_equiv": 47.76,
+ "compute_usd_equiv": 48.82,
  "shipped": [
+  {
+   "ts": 1794663184.1931221,
+   "summary": "#60 hookwhy-launch.md: correct the PermissionError \"unfixed\" claim (fixed in 0.2.0) [respec of #59] \u2192 kiln-site main (merged into main and pushed)"
+  },
   {
    "ts": 1794648727.566241,
    "summary": "#58 agent-waste-lint: add GitHub Actions CI (tests + CLI smoke test) \u2192 agent-waste-lint main (merged into main and pushed)"
@@ -196,10 +200,6 @@
   {
    "ts": 1794606965.5817971,
    "summary": "#15 schemacheck S3a: envelope-aware loader (MCP, JSON-RPC, Anthropic, OpenAI chat/Responses, Gemini, bare schema) \u2192 schemacheck main (merged into main and pushed)"
-  },
-  {
-   "ts": 1794606908.812835,
-   "summary": "#17 kiln-site T5: GitHub Pages deploy workflow + copy check \u2192 kiln-site main (merged into main and pushed)"
   }
  ]
 }
