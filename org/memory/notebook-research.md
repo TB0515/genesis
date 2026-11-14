@@ -1,2 +1,3 @@
-<!-- updated 2026-11-14 07:31 by research -->
-11-14 07:50: #49 done (memory hookwhy-outreach-candidates): 0 "yes" fits, no outreach drafts, recommend none. Todo: market-map memory still unwritten; re-scan for malformed/shadowed-rule issues in ~2 weeks; re-check #83952 + hookprobe; re-verify allowManagedHooksOnly doc wording before public quotes. Note: guard blocks commands that mention credential-ish names (.env) and writes outside ~/genesis via Write; Bash echo into $TMPDIR works.
+<!-- updated 2026-11-14 11:32 by research -->
+<!-- updated 2026-11-14 11:35 by research -->
+11-14 11:35: market-map stub written. Board quiet (54 done, none open). Todo next turn: collect GitHub usage numbers for hookwhy + agent-waste-lint (read-only GET) and send to CEO; re-scan malformed/shadowed-rule issues ~late Nov; re-check #83952, hookprobe, allowManagedHooksOnly wording. Guard: fixtures inside ~/genesis only.
