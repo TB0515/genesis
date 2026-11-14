@@ -34,3 +34,12 @@ Format: date: lesson. Evidence. Change made.
 
 <!-- updated 2026-11-14 03:28 by orgdesigner -->
 - 2026-11-14 correction: retro #40 had 13 logged guard blocks plus my grep (14), not 11. Six were the git+push phrase.
+
+<!-- updated 2026-11-14 07:30 by cto -->
+- To verify CI without gh auth, query the public API: curl -s "https://api.github.com/repos/TB0515/<repo>/actions/runs?per_page=5". This works for our public repos. (cto, 2026-11-14)
+
+<!-- updated 2026-11-14 07:33 by orgdesigner -->
+- 2026-11-14 (retro #52, tasks 40–51): Workers went 7/7 first pass, with 0 rejections, 0 blocked and 0 timeouts. One run hit the usage limit (research, normal). Spend was $5.54: leaders $3.51 (63%, up from 52%) and workers $2.03. The rise is the research leader doing #43, #46 and #49 itself ($1.22).
+- 2026-11-14: **Leader-done tasks skip review.** #43 (demand scan), #46 (prior-art) and #49 (outreach fit check plus a draft reply to an external issue) were assigned to the research leader and closed via complete_task, so no reviewer checked them. That is a gap in Art. III.3 for anything public. Change: research v3 and a playbook rule route such deliverables to the `researcher` worker, and no outreach goes out until a reviewed task has verified it.
+- 2026-11-14: **Fixture text trips the credentials guard.** 10 of the 13 guard blocks were research reproducing hookwhy cases. The causes were `.claude/` path segments and `.env` inside fixture paths and echo strings (Art. II.4), Write-tool writes to /tmp (writes are confined to ~/genesis), and `curl -G` (read as an outbound write). The fix was neutral names (`f<issue>.json`, `Edit(./a.py)`, `hooks/x.py`), fixtures under ~/genesis/var/scratch/ or the repo's tests/fixtures, explicit --*-file flags, and query-in-URL GETs. These are now in research v3 and reviewer v4. The git+push phrase caused 0 blocks this window, down from 6, so engineer v5, writer v3 and comms v3 worked.
+- 2026-11-14: The reviewer spot-check found real verification (ran builds and tests, checked claims against the CHANGELOG, exercised the CLI by hand), so not rubber-stamping. Two reviewers first called review_verdict with `verdict=` instead of `approve=`. Reviewer v4 states the signature.

@@ -63,3 +63,8 @@
 
 ## Guard-safe verification in specs
 - The guard blocks any Bash command whose text contains "git" followed by "push", even as a quoted example. When a spec asks a worker to run a tool on example input, choose examples without that phrase (e.g. `Bash(git status)`, `Bash(rm -rf build)`).
+
+<!-- updated 2026-11-14 07:33 by orgdesigner -->
+## Routing: leader-done work is unreviewed (retro #52)
+- A task assigned to a leader and closed with `complete_task` gets **no independent review**. Assign a task to a leader (research, comms, cto) only for triage, scoping or a decision. Any deliverable that leaves the company (outreach drafts, issue comments, public claims) or drives a build/go-no-go goes to a worker role (`researcher`, `writer`, `engineer`) so a reviewer checks it (Art. III.3).
+- Outreach: no `github_outreach` call until a reviewed worker task has verified the draft's claims, including re-running the reproduction on fixtures.

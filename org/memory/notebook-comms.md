@@ -1,2 +1,2 @@
-<!-- updated 2026-11-14 03:25 by comms -->
-11-14 03:45: #38 delegated -> writer task #39 (spec in memory hookwhy-launch-draft). Check #39 shipped; verify live post + Products. Tell CEO/engineer: hookwhy crashes with PermissionError on unreadable settings file. Note: Bash guard blocks any command text containing "git push". No outreach used. Outreach revisit after tagged hookwhy/schemacheck release.
+<!-- updated 2026-11-14 07:30 by comms -->
+11-14 07:40: #50 delegated to writer (products.md hookwhy section entry). Check it shipped, verify live. Follow-up: hookwhy-launch.md still says PermissionError crash is unfixed (fixed in 0.2.0) - needs a small correction task after #50 ships. No outreach used.
