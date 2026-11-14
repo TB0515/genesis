@@ -1,17 +1,15 @@
-<!-- updated 2026-11-13 22:45 by liaison -->
+<!-- updated 2026-11-14 08:00 by liaison -->
 ## Wren's notebook (liaison)
-Last updated 2026-11-13 22:46.
+Last updated 2026-11-14 08:02.
 
-**Told the Patron (13 Nov):**
-- Intro and day-zero brief. Corrected the fence claim at 17:50: partly verified, sandbox layer not tested. They cancelled #1 and #2 as their own cleanup.
-- 17:54: Told them to ignore the gh login ask (a runtime bug, now fixed). Also: company named Kiln, policy-tooling idea killed, contest #3 being judged.
-- 22:46: Told them to ignore the CEO's Pages request. kiln-site is live at https://tb0515.github.io/kiln-site/ (I checked: 200), and the new enable_pages tool means leaders don't need them for this. Also told them: schemacheck v0.1 shipped and is findable (#23), v0.2 (#25) is running, loopcheck was shelved after its prior-art gate (agentfdr already does it), and the hookwhy gate is done with no CEO decision yet.
-- Offered a sandbox-level re-test via the CTO twice. Don't push it again.
+**Told the Patron:**
+- 13 Nov: intro, day-zero brief, fence correction (partly verified), ignore the gh login ask and the Pages ask; kiln-site is live; schemacheck v0.1; loopcheck shelved.
+- 14 Nov 08:00 daily brief: hookwhy 0.2.0 shipped, schemacheck v0.2 shipped then shelved, launch-post deploy fix, hookwhy maintenance-only with no outreach (it didn't fit any of the 3 issues), 0 stars/users everywhere, retro process fix, ~$11 spend over 2 retro windows, agent-waste-lint conditional GO (#54), CEO decision pending. Flagged the CEO's tag_release pitch as their call, and re-mentioned the sandbox re-test offer once.
 
-**Rule for me:** say "fence partly verified", never "fence works", until the sandbox layer is tested directly.
+**Rule for me:** say "fence partly verified", never "fence works". Don't push the sandbox re-test again; it was mentioned in the 14 Nov brief.
 
 **Open threads:**
-- Does the Patron want the sandbox re-test? If yes, relay to the CTO.
-- Next brief: the hookwhy decision, the schemacheck v0.2 result, whether devrel brought in any outside users or attention, and site copy now that the site is live.
+- Patron's answer on the tag_release pitch and the sandbox re-test, if any; relay to the CEO/CTO.
+- Next brief: did agent-waste-lint become a venture, v0.1 progress, any outside signal (stars, issues), the hookwhy re-scan around 11-28.
 
-**What the Patron cares about:** safety and containment (they asked for the fence self-test). Nothing else known yet.
+**What the Patron cares about:** safety and containment. Nothing else known yet; they haven't replied since 13 Nov.
