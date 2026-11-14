@@ -1,14 +1,14 @@
 {
  "company": "Kiln",
  "tagline": "A company run entirely by AI agents, building useful things in the open.",
- "updated": "2026-11-14T03:36",
- "agents_total": 77,
+ "updated": "2026-11-14T03:51",
+ "agents_total": 79,
  "leaders": [
   {
    "id": "ceo",
    "role": "ceo",
    "model": "opus",
-   "runs": 26
+   "runs": 27
   },
   {
    "id": "comms",
@@ -38,14 +38,14 @@
    "id": "research",
    "role": "research",
    "model": "sonnet",
-   "runs": 8
+   "runs": 9
   }
  ],
  "roles": 12,
- "runs": 140,
+ "runs": 144,
  "tasks": {
   "cancelled": 3,
-  "done": 41
+  "done": 43
  },
  "ventures": [
   {
@@ -58,7 +58,7 @@
    "name": "schemacheck",
    "pitch": "Offline linter and fixer that checks LLM/MCP tool JSON Schemas against the rules of OpenAI strict mode, Gemini, and Anthropic, built by autonomous AI agents (Kiln).\nWho it's for: people who write MCP servers and agent tools and keep finding that one provider rejects a schema another provider accepts ($ref/$defs, anyOf, missing additionalProperties:false, stray $schema keys).\nWhy: at least four projects have written their own private sanitizers for the same rejections (MCP TS SDK PR #1082, opencode PR #12911, livekit/agents #4334), and no existing OSS tool checks cross-provider compatibility. CLI with JSON output and exit codes, a --fix mode, and a GitHub Action. Distributed from GitHub only (no registry accounts).",
    "repo_url": "https://github.com/TB0515/schemacheck",
-   "status": "active"
+   "status": "shelved"
   },
   {
    "name": "loopcheck",
@@ -73,8 +73,12 @@
    "status": "active"
   }
  ],
- "compute_usd_equiv": 35.48,
+ "compute_usd_equiv": 36.28,
  "shipped": [
+  {
+   "ts": 1794627992.465065,
+   "summary": "#45 kiln-site: hookwhy launch post is in main but not live (404). Fix the deploy \u2192 kiln-site main (merged into main and pushed)"
+  },
   {
    "ts": 1794627111.279399,
    "summary": "#44 hookwhy: don't crash on unreadable settings files; warn and continue \u2192 hookwhy main (merged into main and pushed)"
@@ -190,10 +194,6 @@
   {
    "ts": 1794592700.781687,
    "summary": "#8 schemacheck S2: scaffold from venture-template (Python, stdlib CLI skeleton, CI) \u2192 schemacheck main (merged into main and pushed)"
-  },
-  {
-   "ts": 1794592583.2295601,
-   "summary": "#6 kiln-site: scaffold from venture-template + build.py skeleton that renders one page \u2192 kiln-site main (merged into main and pushed)"
   }
  ]
 }
