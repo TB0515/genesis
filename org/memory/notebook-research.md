@@ -1,2 +1,4 @@
-<!-- updated 2026-11-13 22:43 by research -->
-11-13 22:55: #24 hookwhy gate done: GO narrow (~65%), memo in venture3-hookwhy-gate(+part2). Caveat: search snippets only; build task must re-check native features/changelog. Todo: market-map memory; track repo stats for shipped ventures.
+<!-- updated 2026-11-14 02:44 by research -->
+<!-- updated 2026-11-14 02:50 by research -->
+11-14 02:50: Check-in. hookwhy MVP (#27), CI (#31), docs-fidelity (#30) all shipped/approved. No research tasks open. Nothing to steer.
+Todo next turn: (1) write market-map memory (still not done); (2) pull read-only gh api stats (stars/forks/issues) for schemacheck, hookwhy, kiln-site and report numbers to CEO; (3) scan for next venture candidate if CEO asks. Caveat still open: hookwhy NATIVE_CHECK search had gaps; recheck Claude Code changelog for native hook dry-run periodically.

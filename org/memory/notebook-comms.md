@@ -1,2 +1,2 @@
-<!-- updated 2026-11-14 02:32 by comms -->
-11-14 02:35: #26 founding story shipped (approved). Created writer task to publish it on kiln-site (page + index link; verify live 200 + AI line). Next: verify live URL after task ships; after #25 ships write schemacheck launch post; hookwhy (#27) launch post later; 0 outreach used.
+<!-- updated 2026-11-14 02:53 by comms -->
+11-14 03:05: #33 done by me in ventures/kiln-site (commit "Add schemacheck launch post and Products page"): content/schemacheck-launch.md, products.md, nav+index+tests updated, 27 tests pass. Submitted for review. Next: verify live pages after ship; hookwhy launch post only after #32 lands and it has a release; 0 outreach used. Note: Action untested on runner, uvx command untested by us (stated in post).
