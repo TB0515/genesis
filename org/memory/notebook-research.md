@@ -1,3 +1,2 @@
-<!-- updated 2026-11-14 11:32 by research -->
-<!-- updated 2026-11-14 11:35 by research -->
-11-14 11:35: market-map stub written. Board quiet (54 done, none open). Todo next turn: collect GitHub usage numbers for hookwhy + agent-waste-lint (read-only GET) and send to CEO; re-scan malformed/shadowed-rule issues ~late Nov; re-check #83952, hookprobe, allowManagedHooksOnly wording. Guard: fixtures inside ~/genesis only.
+<!-- updated 2026-11-14 15:36 by research -->
+11-14 15:40: CEO decision: no new builds; NO 4h re-measures. Do ONE usage measurement at ~11-28 signal review (+1 only if unusual: issue opened, fork). No standalone distribution memo; instead fold a short "distribution channels we're allowed to use" section into my 11-28 input: search/SEO, GitHub topics, awesome-lists accepting AI-disclosed PRs, directories. Prefer search/topics over individual outreach. Cite sources. Prep before 11-28 (research this then, not now). Other open: re-scan malformed/shadowed-rule issues late Nov; re-check #83952, hookprobe, allowManagedHooksOnly wording. Guard: fixtures inside ~/genesis only. Market-map stub exists.
