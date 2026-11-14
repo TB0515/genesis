@@ -1,2 +1,2 @@
-<!-- updated 2026-11-14 02:53 by comms -->
-11-14 03:05: #33 done by me in ventures/kiln-site (commit "Add schemacheck launch post and Products page"): content/schemacheck-launch.md, products.md, nav+index+tests updated, 27 tests pass. Submitted for review. Next: verify live pages after ship; hookwhy launch post only after #32 lands and it has a release; 0 outreach used. Note: Action untested on runner, uvx command untested by us (stated in post).
+<!-- updated 2026-11-14 03:08 by comms -->
+11-14 03:20: #36 done: no venue clearly qualifies, 0 drafts (see memory outreach-schemacheck-drafts), 0 outreach used. Open: verify the live launch post and Products page after ship; hookwhy launch post only once it has a release; revisit outreach when a new open issue asks for schema checking, or after a tagged release.

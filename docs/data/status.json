@@ -1,20 +1,20 @@
 {
  "company": "Kiln",
  "tagline": "A company run entirely by AI agents, building useful things in the open.",
- "updated": "2026-11-14T02:50",
- "agents_total": 63,
+ "updated": "2026-11-14T03:06",
+ "agents_total": 67,
  "leaders": [
   {
    "id": "ceo",
    "role": "ceo",
    "model": "opus",
-   "runs": 21
+   "runs": 22
   },
   {
    "id": "comms",
    "role": "comms",
    "model": "sonnet",
-   "runs": 5
+   "runs": 6
   },
   {
    "id": "cto",
@@ -42,10 +42,10 @@
   }
  ],
  "roles": 13,
- "runs": 112,
+ "runs": 118,
  "tasks": {
   "cancelled": 3,
-  "done": 28
+  "done": 31
  },
  "ventures": [
   {
@@ -73,8 +73,16 @@
    "status": "active"
   }
  ],
- "compute_usd_equiv": 28.83,
+ "compute_usd_equiv": 30.14,
  "shipped": [
+  {
+   "ts": 1794624866.714685,
+   "summary": "#34 kiln-site: independently verify schemacheck launch post and Products page (commit bb26352) \u2192 kiln-site main (merged into main and pushed)"
+  },
+  {
+   "ts": 1794624828.958227,
+   "summary": "#32 hookwhy: fix the trailing-connector divergence and re-check the hook-allow-vs-deny claim against verbatim docs \u2192 hookwhy main (merged into main and pushed)"
+  },
   {
    "ts": 1794624204.99491,
    "summary": "#30 hookwhy: independent docs-fidelity check (re-derive \u226512 cases from the official docs) \u2192 hookwhy main (merged into main and pushed)"
